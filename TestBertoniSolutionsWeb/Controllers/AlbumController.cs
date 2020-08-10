@@ -14,6 +14,7 @@ namespace TestBertoniSolutionsWeb.Controllers
             {
                 return _cliente.Invocar<List<Album>>("albums", MetodoHttp.Get);
             });
+            ViewBag.Albums = result;
             return View(result);
         }
 

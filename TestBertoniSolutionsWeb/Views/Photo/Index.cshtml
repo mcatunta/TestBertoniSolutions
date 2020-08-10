@@ -5,63 +5,62 @@
 
 <h1>Lista de Photos</h1>
 
-<table class="table">
-    <tr>
-        <th>
-            TITULO
-        </th>
-        <th>
-            ID
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div style="height:400px; overflow:auto;">
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
+            <th>
+                ID
+            </th>
+            <th>
+                TITULO
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
             <td class="hide">
                 @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td class="text-secondary">
                 <a href="#!" class="button">Ver Comentarios</a>
             </td>
-            @*<td>
-                @Html.ActionLink("Ver Comentarios", "Index", "Comment", new { photoId = item.Id })
-            </td>*@
         </tr>
-    }
-    <tr>
-        <td>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        </td>
-    </tr>
-</table>
+        }
+        <tr>
+            <td>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    </table>
+</div>
 
 <div id="LoadComments" style="overflow-y:auto; overflow-x:hidden; "></div>
 
 @section Scripts
 {
-    <script type="text/javascript">
-        $(".button").click( function() {
-            var tr = $(this).closest("tr");
-            var photoId = tr.find(".hide").html();
-            $.ajax({
-                url: "/comment/GetCommentByPhoto?photoId="+photoId.trim(), 
-                type: "GET",    
-                cache: false,
-                success: function(data){                          
-                    var items = '<table><tr><th>Nombre</th><th>Email</th></tr>';  
-                    $.each(data, function (i, comment) {  
-                        items += "<tr><td>" + comment.name + "</td><td>" + comment.email + "</td></tr>";  
-                    });  
-                    items += "</table>";   
-                    $('#LoadComments').html(items);                
-                }           
-            });    
-        });
-    </script>
-}
+        <script type="text/javascript">
+            $(".button").click(function () {
+                var tr = $(this).closest("tr");
+                var photoId = tr.find(".hide").html();
+                $.ajax({
+                    url: "/comment/GetCommentByPhoto?photoId=" + photoId.trim(),
+                    type: "GET",
+                    cache: false,
+                    success: function (data) {
+                        var items = '<table><tr><th>NOMBRE</th><th>EMAIL</th><th>BODY</th></tr>';
+                        $.each(data, function (i, comment) {
+                            items += "<tr><td>" + comment.name + "</td><td>" + comment.email + "</td><td>" + comment.body + "</td></tr>";
+                        });
+                        items += "</table>";
+                        $('#LoadComments').html(items);
+                    }
+                });
+            });
+        </script>
+    }
 
